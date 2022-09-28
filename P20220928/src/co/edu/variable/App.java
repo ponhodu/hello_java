@@ -46,6 +46,6 @@ public class App {
 				break;
 			}
 		}
-		
+		System.out.println("정상커밋완료.");
 	}
 }
