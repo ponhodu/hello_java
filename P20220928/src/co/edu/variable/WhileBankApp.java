@@ -26,6 +26,8 @@ public class WhileBankApp {
 				for (int i = 0; i < banks.length; i++) {
 					if (banks[i] != null && banks[i].accNo.equals(accNo)) {
 						banks[i].balance = banks[i].balance + money; // 예금액의 누적액이기 때문에.
+					} else {
+						System.out.println("입력한 계좌번호가 존재하지 않습니다.");
 					}
 				}
 			} else if (menu == 2) {
