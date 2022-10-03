@@ -52,15 +52,26 @@ public class SortExe {
 //		}
 		
 		//반복문으루 변경작업
-	for( int j = 0; j<numAry.length-1; j++) {
-		for (int i = 0; i <numAry.length-1; i++) {
+//	for( int j = 0; j<numAry.length-1; j++) {
+//		for (int i = 0; i <numAry.length-1; i++) {
+//			if(numAry[i] > numAry[i+1]) {
+//			int temp = 0;
+//			temp = numAry[i]; // 순서가 먼저 입력된 것의 값 지정
+//			numAry[i] = numAry[i+1];
+//			numAry[i+1] = temp;
+//			}
+//		}		
+//	}
+//		
+	for(int i = 0; i<numAry.length-1; i++) {
+		for(int j = 0; j<numAry.length-2; j++) {
 			if(numAry[i] > numAry[i+1]) {
-			int temp = 0;
-			temp = numAry[i]; // 순서가 먼저 입력된 것의 값 지정
-			numAry[i] = numAry[i+1];
-			numAry[i+1] = temp;
+				int temp = 0;
+				temp = numAry[i];
+				numAry[i] = numAry[i+1];
+				numAry[i+1] = temp;
 			}
-		}		
+		}
 	}
 	for(int n : numAry) {
 		System.out.print(n+ " "); //println은 줄바꿈하며 보여줌
