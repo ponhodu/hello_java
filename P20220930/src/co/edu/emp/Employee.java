@@ -33,7 +33,7 @@ public class Employee {
 
 	// 매게값 3개있는 생성자
 	public Employee(int employeeId, String name, int salary) {
-		this(employeeId, name, salary, 30);
+		this(employeeId, name, 30, salary );
 	}
 
 	// 2개 있는 생성자

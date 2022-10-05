@@ -10,5 +10,6 @@ public interface EmployeeService {
 	public void search();
 	public String search(int employeeId); //사원 아이디의 이름 반환.
 	public void print(); //전체사원정보 출력.
+	public int searchSal(int employeeId); //사원아이디 -> 급여 반환
 	
 }

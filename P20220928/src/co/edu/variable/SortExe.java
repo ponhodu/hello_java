@@ -60,11 +60,12 @@ public class SortExe {
 //			numAry[i] = numAry[i+1];
 //			numAry[i+1] = temp;
 //			}
+		
 //		}		
 //	}
 //		
-	for(int i = 0; i<numAry.length-1; i++) {
-		for(int j = 0; j<numAry.length-2; j++) {
+	for(int i = 0; i<numAry.length; i++) {
+		for(int j = 0; j<numAry.length-i; j++) {
 			if(numAry[i] > numAry[i+1]) {
 				int temp = 0;
 				temp = numAry[i];
