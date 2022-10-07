@@ -29,6 +29,7 @@ public class StringExe2 {
 		System.out.println("영어를 입력하세요 >> ");
 			try {
 				int bytes = System.in.read();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
