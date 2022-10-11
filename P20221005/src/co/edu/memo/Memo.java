@@ -2,7 +2,8 @@ package co.edu.memo;
 
 import java.io.Serializable;
 
-public class Memo implements Serializable {
+public class Memo implements Serializable { 
+	//객체를 파일로 저장 or 네트워크로 전송할 목적일때 Serializable 선언 필요
 
 	private int no;
 	private String date;

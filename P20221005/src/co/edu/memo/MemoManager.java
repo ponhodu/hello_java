@@ -76,7 +76,7 @@ public class MemoManager {
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			) {
 			
-			memoStorage = (List<Memo>) ois.readObject(); //잇으면 값 보여주삼
+			memoStorage = (List<Memo>) ois.readObject(); //파일 리턴(바이트 -> 객체)
 		} catch(Exception e) {
 //			e.printStackTrace(); 
 			return; //없으면 어쩔수 없지 모 ㅋㅋ
@@ -86,9 +86,9 @@ public class MemoManager {
 	//종료하면 파일에 저장갈겨.
 	public void storeToFile() {
 		try(FileOutputStream fos = new FileOutputStream(file);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			ObjectOutputStream oos = new ObjectOutputStream(fos); 
 		) {
-			oos.writeObject(memoStorage); //파일저장
+			oos.writeObject(memoStorage); //파일저장(객체 -> 바이트배열)
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
