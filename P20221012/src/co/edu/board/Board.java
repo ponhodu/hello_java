@@ -7,6 +7,28 @@ public class Board {
 	private String bWriter;
 	private String bDate;
 	private int cnt;
+	
+	public Board(int bNum, String bContent) {
+		this.bNum = bNum;
+		this.bContent = bContent;
+	}
+	
+	public Board(int bNum, String bTitle, String bContent, String bWriter, String bDate) {
+		this.bNum = bNum;
+		this.bTitle = bTitle;
+		this.bContent = bContent;
+		this.bWriter = bWriter;
+		this.bDate = bDate;
+	}
+	
+	public Board(int bNum, String bTitle, String bContent, String bWriter, String bDate, int cnt) {
+		this.bNum = bNum;
+		this.bTitle = bTitle;
+		this.bContent = bContent;
+		this.bWriter = bWriter;
+		this.bDate = bDate;
+		this.cnt = cnt;
+	}
 	public int getbNum() {
 		return bNum;
 	}
