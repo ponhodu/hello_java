@@ -27,6 +27,7 @@ public class FriendListImpl implements FriendService {
 	@Override
 	public Friend[] friendList() {
 		// 전체 친구목록을 반환하도록 수정하세요(반환유형에 유의).
+
 		
 		return friendList;
 		
