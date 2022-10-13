@@ -4,22 +4,47 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.jdbc.Employee;
+import oracle.net.aso.r;
+
 //Create Read Update Delete
 public class BoardDAO extends DAO {
 	
-	public void insert(Board brd) {
-		String sql = "insert into board(board_num, board_title, board_content, board_writer, creation_date, cnt)\r\n"
-				+ "values( "
-				+ ", '" + brd.getbNum() //
-				+ ", '" + brd.getbTitle() //
-				+ ", '" + brd.getbContent() //
-				+ ", '" + brd.getbWriter() //
-				+ ", '" + brd.getbDate() + "')"; //cnt 추가 필요함 ㅠㅠ
-		
+	public boolean login(String id, String passwd) {
+		String sql = "select * from users where id = ?";
 		conn = getConnect();
 		try {
-			stmt = conn.createStatement();
-			int r = stmt.executeUpdate(sql);
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();			
+			
+			while(rs.next())
+				{if(passwd.equals(rs.getString("passwd"))) {
+					
+				return true;
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}return false;
+		
+	}
+	
+	public void insert(Board brd) {
+		String sql = "insert into board(board_num, board_title, board_content, board_writer)\r\n"
+				+ "values( ?, ?, ?, ?)";
+				
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1,brd.getbNum());
+			psmt.setString(2,brd.getbTitle());
+			psmt.setString(3,brd.getbContent());
+			psmt.setString(4,brd.getbWriter());
+			int r = psmt.executeUpdate();
 			System.out.println(r + "건 입력되었습니다");
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -40,7 +65,7 @@ public class BoardDAO extends DAO {
 			psmt.setString(1, brd.getbContent());
 			psmt.setInt(2, brd.getbNum());
 			
-			int r = psmt.executeUpdate();
+			int r = psmt.executeUpdate(); //실제 업데이트하능거
 			System.out.println(r + "건 수정되었습니다");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,6 +76,8 @@ public class BoardDAO extends DAO {
 	
 	public boolean delete(int bNum) {
 		String sql = "delete from board where board_num = ?";
+		
+		
 		conn = getConnect();
 		
 		try {
@@ -81,11 +108,11 @@ public class BoardDAO extends DAO {
 						, rs.getString("board_title")
 						, rs.getString("board_content")
 						, rs.getString("board_writer")
-						, rs.getString("created_date")
+						, rs.getString("creation_date")
 						, rs.getInt("cnt")));
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println("로그인 실패");
 		}finally {
 			disconnect();
 		}
@@ -96,15 +123,79 @@ public class BoardDAO extends DAO {
 		conn = getConnect();
 		Board findbrd = null;
 		String sql = "select * from board where board_num = ?";
+		String cnt = "update board set cnt = cnt+1 where board_num = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, bNum);
 			rs =psmt.executeQuery();
+			
+			psmt = conn.prepareStatement(cnt);
+			psmt.setInt(1, bNum);
+			int r = psmt.executeUpdate(); //실제 업데이트하능거
+//			System.out.println("글" + bNum +"의 조회수가 " + r + "건 올랐습니다");
+			
+			if (rs.next()) {
+				findbrd = new Board(rs.getInt("board_num")//
+						, rs.getString("board_title")//
+						, rs.getString("board_content")//
+						, rs.getString("board_writer")//
+						, rs.getString("creation_date")//
+						, rs.getInt("cnt"));
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			disconnect();
 		}
 		return findbrd;
-	}
+	}//end getbrd
+	
+	//댓글 관련
+	//댓글 추가
+	public void addReply(Reply reply) {
+		String sql = "insert into reply(rep_seq, board_num, rep_content, rep_writer, creation_date)\r\n"
+				+ "values(reply_seq.nextval, ? , ? , ? ,sysdate)";
+				
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, reply.getbNum());
+			psmt.setString(2, reply.getReContent());
+			psmt.setString(3, reply.getReWriter());
+			
+			psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+	}//end addReply
+	
+	//댓글 조회
+	public List<Reply> getReply(int bNum) {
+		conn = getConnect();
+		List <Reply> list = new ArrayList<>();
+		String sql = "select * from reply where board_num  = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, bNum);
+			rs =psmt.executeQuery();
+			
+			while(rs.next()) {
+				list.add(new Reply(rs.getInt("rep_seq")//
+							,rs.getInt("board_num")//
+							,rs.getString("rep_content")//
+							,rs.getString("rep_writer")//
+							,rs.getString("creation_date")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return list;
+				
+	}//end getReply
 }
