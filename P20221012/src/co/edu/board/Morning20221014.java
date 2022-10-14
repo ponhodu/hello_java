@@ -16,7 +16,7 @@ public class Morning20221014 {
 		Scanner scn = new Scanner(System.in);
 			
 	while(true) {
-		System.out.println("회원 목록 입력 해버령");
+		System.out.println("회원 목록 입력 해버령 - 종료하고 싶으면 quit 입력해");
 		System.out.println("회원아이디 >> ");
 		String uId = scn.nextLine();
 		

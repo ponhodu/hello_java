@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//ObjectOutputStreamÀº Serializable À» ±¸ÇöÇÏ´Â Å¬·¡½º. 
+//ObjectOutputStreamì€ Serializable ì„ êµ¬í˜„í•˜ëŠ” í´ë˜ìŠ¤. 
 class Emp implements Serializable {
 	int id;
 	String name;
@@ -23,7 +23,7 @@ class Emp implements Serializable {
 
 	@Override
 	public String toString() {
-		return "»ç¿øid : " + id + ", ÀÌ¸§ : " + name + ", ºÎ¼­ : " + dept;
+		return "ì‚¬ì›id : " + id + ", ì´ë¦„ : " + name + ", ë¶€ì„œ : " + dept;
 	}
 }
 
@@ -44,16 +44,16 @@ public class ObjectExample {
 	}
 
 	public static void writeObj() {
-		// ÀÔÃâ·Â ½ºÆ®¸² -> ClassÀÎ½ºÅÏ½º »ı¼º -> ÆÄÀÏ ÀÔÃâ·Â
-		// ObjectInputStream, ObjectOutputStream : object ±â¹İ.
+		// ì…ì¶œë ¥ ìŠ¤íŠ¸ë¦¼ -> Classì¸ìŠ¤í„´ìŠ¤ ìƒì„± -> íŒŒì¼ ì…ì¶œë ¥
+		// ObjectInputStream, ObjectOutputStream : object ê¸°ë°˜.
 		ArrayList<Emp> empList = new ArrayList<>();
-		empList.add(new Emp(100, "±èÈ£µÎ", "ÀÎ»ç"));
-		empList.add(new Emp(200, "¿ì¿µ°æ", "°³¹ß"));
-		empList.add(new Emp(300, "ÀÌÀ¯Á¤", "ÃÑ¹«"));
+		empList.add(new Emp(100, "ê¹€í˜¸ë‘", "ì¸ì‚¬"));
+		empList.add(new Emp(200, "ìš°ì˜ê²½", "ê°œë°œ"));
+		empList.add(new Emp(300, "ì´ìœ ì •", "ì´ë¬´"));
 
 		try (FileOutputStream fos = new FileOutputStream("C:/Temp/emp.dat");
 				ObjectOutputStream oos = new ObjectOutputStream(fos);) {
-//					FileOutputStream fos = new FileOutputStream("C:/Temp/emp.dat"); //try ()¿¡ ÇØÁÖ¸é ±»ÀÌ close ¾ÈÇØÁàµµ µÊ.
+//					FileOutputStream fos = new FileOutputStream("C:/Temp/emp.dat"); //try ()ì— í•´ì£¼ë©´ êµ³ì´ close ì•ˆí•´ì¤˜ë„ ë¨.
 //					ObjectOutputStream oos = new ObjectOutputStream(fos);
 
 			oos.writeObject(empList);
