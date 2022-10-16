@@ -27,47 +27,71 @@ public class StudentManage {
 
 	// 등록.
 	public void add(Student student) {
-		
+
 		studentList.add(student);
 		System.out.println("<<입력되었습니다!>>");
 
 	}
+
 	// 삭제.
 	public void del(int studNo) {
 		boolean check = false;
-		for(int i=0; i<studentList.size(); i++) {
-			if(studentList.get(i).getStudNo() == studNo) {
+		for (int i = 0; i < studentList.size(); i++) {
+			if (studentList.get(i).getStudNo() == studNo) {
 				studentList.remove(i);
 				System.out.println("<<삭제되었습니다.>>");
 				check = true;
 			}
 		}
-		if(!check) {
+		if (!check) {
 			System.out.println("<<해당정보가 없습니다>>");
 		}
 	}
 
 	// 목록(입력순서).
 	public void list() {
-		 
-		for(int i=0; i<studentList.size(); i++) {
+
+		for (int i = 0; i < studentList.size(); i++) {
 			System.out.println(studentList.get(i).toString());
 		}
-	}	
+	}
 
 	// 순위(총점순서).
 	public void ord() {
-		for(int i=0; i<studentList.size(); i++) {
-			for(int j =0; j<studentList.size()-1; j++) {
-				if(studentList.get(i).getSumScore()<studentList.get(i+1).getSumScore()){
-					rankList.add(i, studentList.get(i));
-					rankList.remove(i+2);
-				}			
+		for (int i = 0; i < studentList.size(); i++) {
+			int last = rankList.size();
+			for (int j = 0; j <= last; j++) {
+				// 비교룰 허더거 머자막 순번이 됐을 경우에는 제일 뒤에 추가하기.
+				if (j == last) {
+					rankList.add(studentList.get(i));
+					break;
+				}
+				// 마지막 순번이 아니면 현재 비교하는 위치에 추가하기.
+				if (studentList.get(i).getSumScore() > rankList.get(j).getSumScore()) { // 점수정렬
+					if (studentList.get(i).getStudNo() < rankList.get(j).getStudNo()) {
+						rankList.add(j, studentList.get(i));
+						break;
+					}
+				}
 			}
-			System.out.println(rankList.get(i));
-			
-		}
+		} //end of for
 		
+		int ord = 1;
+		for(Student i : rankList) {
+			System.out.println(rankList);
+		}
+
+//		for(int i=0; i<studentList.size(); i++) {
+//			for(int j =0; j<studentList.size()-1; j++) {
+//				if(studentList.get(i).getSumScore()<studentList.get(i+1).getSumScore()){
+//					rankList.add(i, studentList.get(i));
+//					rankList.remove(i+2);
+//				}			
+//			}
+//			System.out.println(rankList.get(i));
+//			
+//		}
+
 	}
 
 	// 저장된 파일을 읽어오기.
@@ -89,10 +113,10 @@ public class StudentManage {
 				int no = Integer.parseInt(itemAry[0]);
 				String name = itemAry[1];
 				int age = Integer.parseInt(itemAry[2]);
-				int eng= Integer.parseInt(itemAry[3]);
-				int math =Integer.parseInt(itemAry[4]);
+				int eng = Integer.parseInt(itemAry[3]);
+				int math = Integer.parseInt(itemAry[4]);
 				Student student = new Student(no, name, age, eng, math);
-				
+
 				studentList.add(student);
 
 			}
@@ -108,11 +132,11 @@ public class StudentManage {
 	public void storeToFile() {
 		try {
 			FileWriter fw = new FileWriter(file);
-			
-			for (int i =0; i<studentList.size(); i++) {
-				x = studentList.get(i).toString() + studentList.get(i).getSumScore();
-				
-				fw.write(x + "\n");	
+
+			for (int i = 0; i < studentList.size(); i++) {
+				x = studentList.get(i).toString();
+
+				fw.write(x + "\n");
 			}
 			System.out.println("<<저장되었습니다!!>>");
 			fw.close();
