@@ -11,11 +11,23 @@ public class Board {
 		
 	};
 	
-	public Board(int bNum, String bTitle, String bContent, String bwriter) {
+	public Board(int bNum, String bContent) {
+		this.bNum = bNum;
+		this.bContent = bContent;
+	}
+	public Board(int bNum, String bTitle, String bwriter, String bDate) {
+		this.bNum = bNum;
+		this.bTitle = bTitle;
+		this.bWriter = bwriter;
+		this.bDate = bDate;
+	}
+	
+	public Board(int bNum, String bTitle, String bContent, String bwriter, String bDate) {
 		this.bNum = bNum;
 		this.bTitle = bTitle;
 		this.bContent = bContent;
 		this.bWriter = bwriter;
+		this.bDate = bDate;
 	}
 	
 
@@ -51,6 +63,12 @@ public class Board {
 		this.bDate = bDate;
 	}
 	
+	@Override
+	public String toString() {
+		return  bNum + " " + bTitle + " " + bWriter + " " + bDate + "\n";
+	}
 	
-	
+	public String showString() {
+		return  bNum + " " + bTitle + " " + bContent+ " "+ bWriter + " " + bDate + "\n";
+	}
 }
