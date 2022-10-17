@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MemoManager {
-	List<Memo> memoStorage = new ArrayList<>();//¡§∫∏ ¥„¿ª ƒ√∑∫º«
+	List<Memo> memoStorage = new ArrayList<>();//Ï†ïÎ≥¥ Îã¥ÏùÑ Ïª¨Î†âÏÖò
 	File file = new File("C:/Temp/memobook.dat");
 	Scanner scn = new Scanner(System.in);
 	
-	//ΩÃ±€≈Ê
+	//Ïã±Í∏ÄÌÜ§
 	private static MemoManager instance = new MemoManager();
 	private MemoManager() {
 		readFromFile();
@@ -23,22 +23,22 @@ public class MemoManager {
 		return instance;
 	}
 	
-	// √ﬂ∞°.
+	// Ï∂îÍ∞Ä.
 	public void inputData() {
-		System.out.print("π¯»£ > ");
+		System.out.print("Î≤àÌò∏ > ");
 		int no = Integer.parseInt(scn.nextLine());
-		System.out.print("≥Ø¬• > ");
+		System.out.print("ÎÇ†Ïßú > ");
 		String date = scn.nextLine();
-		System.out.println("≥ªøÎ > ");
+		System.out.println("ÎÇ¥Ïö© > ");
 		String content = scn.nextLine();
 		
 		memoStorage.add(new Memo(no, date, content));
-		System.out.println("¿˙¿Â¿Ã øœ∑· µ«æ˙Ω¿¥œ¥Ÿ.");
+		System.out.println("Ï†ÄÏû•Ïù¥ ÏôÑÎ£å ÎêòÏóàÏäµÎãàÎã§.");
 	}
 	
-	//¡∂»∏. ±‚¡ÿ - ≥Ø¬•
+	//Ï°∞Ìöå. Í∏∞Ï§Ä - ÎÇ†Ïßú
 	public void searchData() {
-		System.out.println("≥Ø¬• >");
+		System.out.println("ÎÇ†Ïßú >");
 		String sDate = scn.nextLine();
 		boolean exists = false;
 		for(int i =0; i<memoStorage.size(); i++) {
@@ -48,47 +48,47 @@ public class MemoManager {
 			}
 		}
 		if(!exists) {
-			System.out.println("«ÿ¥Á ≥Ø¬•¿« ∏ﬁ∏∞° æ¯Ω¿¥œ¥Ÿ.");
+			System.out.println("Ìï¥Îãπ ÎÇ†ÏßúÏùò Î©îÎ™®Í∞Ä ÏóÜÏäµÎãàÎã§.");
 		}
 	}//end searchData
 	
-	//π¯»£∏¶ ¿‘∑¬«œ∏È «—∞« ªË¡¶.
+	//Î≤àÌò∏Î•º ÏûÖÎ†•ÌïòÎ©¥ ÌïúÍ±¥ ÏÇ≠Ï†ú.
 	public void deleteData() {
-		System.out.println("π¯»£ >> ");
+		System.out.println("Î≤àÌò∏ >> ");
 		int sNo = Integer.parseInt(scn.nextLine());
 		boolean exists = false;
 		for(int i =0; i<memoStorage.size(); i++) {
 			if(sNo == memoStorage.get(i).getNo()) {
 				memoStorage.remove(i);
 				exists = true;
-				System.out.println("ªË¡¶∞° øœ∑· µ«æ˙Ω¿¥œ¥Ÿ.");
+				System.out.println("ÏÇ≠Ï†úÍ∞Ä ÏôÑÎ£å ÎêòÏóàÏäµÎãàÎã§.");
 			}
 		}
 		if(!exists) {
-			System.out.println("«ÿ¥Á π¯»£¿« ∏ﬁ∏∞° æ¯Ω¿¥œ¥Ÿ.");
+			System.out.println("Ìï¥Îãπ Î≤àÌò∏Ïùò Î©îÎ™®Í∞Ä ÏóÜÏäµÎãàÎã§.");
 		}
 	}
 	
-	//«¡∑Œ±◊∑• Ω««‡ Ω√  ∆ƒ¿œ¿ª ¿–æÓº≠ µ•¿Ã≈Õ memoStorage ±‚¥….
+	//ÌîÑÎ°úÍ∑∏Îû® Ïã§Ìñâ Ïãú  ÌååÏùºÏùÑ ÏùΩÏñ¥ÏÑú Îç∞Ïù¥ÌÑ∞ memoStorage Í∏∞Îä•.
 	public void readFromFile() {
 		//try with resource.
 		try(FileInputStream fis = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			) {
 			
-			memoStorage = (List<Memo>) ois.readObject(); //∆ƒ¿œ ∏Æ≈œ(πŸ¿Ã∆Æ -> ∞¥√º)
+			memoStorage = (List<Memo>) ois.readObject(); //ÌååÏùº Î¶¨ÌÑ¥(Î∞îÏù¥Ìä∏ -> Í∞ùÏ≤¥)
 		} catch(Exception e) {
 //			e.printStackTrace(); 
-			return; //æ¯¿∏∏È æÓ¬øºˆ æ¯¡ˆ ∏ §ª§ª
+			return; //ÏóÜÏúºÎ©¥ Ïñ¥Ï©îÏàò ÏóÜÏßÄ Î™® „Öã„Öã
 		}
 	}
 	
-	//¡æ∑·«œ∏È ∆ƒ¿œø° ¿˙¿Â∞•∞‹.
+	//Ï¢ÖÎ£åÌïòÎ©¥ ÌååÏùºÏóê Ï†ÄÏû•Í∞àÍ≤®.
 	public void storeToFile() {
 		try(FileOutputStream fos = new FileOutputStream(file);
 			ObjectOutputStream oos = new ObjectOutputStream(fos); 
 		) {
-			oos.writeObject(memoStorage); //∆ƒ¿œ¿˙¿Â(∞¥√º -> πŸ¿Ã∆ÆπËø≠)
+			oos.writeObject(memoStorage); //ÌååÏùºÏ†ÄÏû•(Í∞ùÏ≤¥ -> Î∞îÏù¥Ìä∏Î∞∞Ïó¥)
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

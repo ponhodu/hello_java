@@ -11,65 +11,65 @@ import java.util.Scanner;
 public class EmpObjectExam {
 	public static void main(String[] args) throws Exception {
 		
-		//C://Temp/emp.dat ÀĞ¾îµéÀÌ´Â ±â´É ¸¸µé±â
+		//C://Temp/emp.dat ì½ì–´ë“¤ì´ëŠ” ê¸°ëŠ¥ ë§Œë“¤ê¸°
 		FileInputStream fis = new FileInputStream("C:/Temp/emp.dat");
 		ObjectInputStream ois = new ObjectInputStream(fis);
-		ArrayList<Emp> empList = (ArrayList<Emp>) ois.readObject(); //objectÅ¸ÀÔÀ¸·Î ÀĞ¾îÁÖ»ï -> Arraylist ·Î Ä³½ºÆÃ
+		ArrayList<Emp> empList = (ArrayList<Emp>) ois.readObject(); //objectíƒ€ì…ìœ¼ë¡œ ì½ì–´ì£¼ì‚¼ -> Arraylist ë¡œ ìºìŠ¤íŒ…
 		Scanner scn = new Scanner(System.in);
 		while(true) {
-			System.out.println("1. »ç¿øµî·Ï 2. ¸ñ·ÏÃâ·Â 3. »èÁ¦ 4. Á¾·á");
-			System.out.println("¸Ş´º ¼±ÅÃ >>");
+			System.out.println("1. ì‚¬ì›ë“±ë¡ 2. ëª©ë¡ì¶œë ¥ 3. ì‚­ì œ 4. ì¢…ë£Œ");
+			System.out.println("ë©”ë‰´ ì„ íƒ >>");
 			int menu = scn.nextInt();
 			scn.nextLine();
-			String[] empAry; //¼±»ı´ÔÀÌ ÇÏ½Ç ¶§ 
+			String[] empAry; //ì„ ìƒë‹˜ì´ í•˜ì‹¤ ë•Œ 
 			if(menu == 1) {
-//				System.out.println("»ç¿øid >> ");
+//				System.out.println("ì‚¬ì›id >> ");
 //				int id = scn.nextInt();
 //				scn.nextLine();
-//				System.out.println("»ç¿ø ÀÌ¸§ >> ");
+//				System.out.println("ì‚¬ì› ì´ë¦„ >> ");
 //				String name = scn.nextLine();
-//				System.out.println("ºÎ¼­ ÀÌ¸§ >> ");
+//				System.out.println("ë¶€ì„œ ì´ë¦„ >> ");
 //				String dept = scn.nextLine();
 //				
 //				Emp employee = new Emp(id, name, dept);
 //				empList.add(employee);
 				
-//½ÜÀÌ ÇÑ°Å				
+//ìŒ¤ì´ í•œê±°				
 				System.out.println(">>");
 				String empVal = scn.nextLine();
-				//splitÀ» ÀÌ¿ëÇÒ°æ¿ì
+				//splitì„ ì´ìš©í• ê²½ìš°
 				empAry = empVal.split(" ");
 				Emp emp = new Emp(Integer.parseInt(empAry[0]), empAry[1], empAry[2]);
 				empList.add(emp);
-				System.out.println("ÀÔ·Â ¿Ï·á");
+				System.out.println("ì…ë ¥ ì™„ë£Œ");
 				
 			} else if(menu ==2) {
 				for(Emp emp:empList) {
 					System.out.println(emp.toString());
 				}
 			} else if(menu == 3) {
-				//»ç¿ø¹øÈ£¸¦ ±âÁØÀ¸·Î »èÁ¦
-				System.out.println("»ç¿ø ¹øÈ£¸¦ ÀÔ·Â ÇÏ¼¼¿ä >>");
+				//ì‚¬ì›ë²ˆí˜¸ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì‚­ì œ
+				System.out.println("ì‚¬ì› ë²ˆí˜¸ë¥¼ ì…ë ¥ í•˜ì„¸ìš” >>");
 				int empId = scn.nextInt();
 				scn.nextLine();
 				for(int i = 0; i<empList.size(); i++) {
 					if(empId == empList.get(i).id)
 					empList.remove(i);
 				}
-				System.out.println("»èÁ¦µÇ¾ú½À´Ï´Ù.");
+				System.out.println("ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
 				
 			} else if (menu ==4) {
-				//ÄÃ·º¼Ç¿¡ ÀÖ´ø ObjectOutStreamÀ» È°¿ëÇØ¼­ C:/Temp/emp.dat ÀúÀå.
+				//ì»¬ë ‰ì…˜ì— ìˆë˜ ObjectOutStreamì„ í™œìš©í•´ì„œ C:/Temp/emp.dat ì €ì¥.
 				try(FileOutputStream fos = new FileOutputStream("C:/Temp/emp.dat");
 				ObjectOutputStream oos = new ObjectOutputStream(fos);){
 					oos.writeObject(empList);
 				} catch(Exception e) {
 					e.printStackTrace();
 				}
-				System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+				System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 				break;
 			} else {
-				System.out.println("Àß¸øµÈ ¸Ş´º¸¦ ¼±ÅÃÇß½À´Ï´Ù.");
+				System.out.println("ì˜ëª»ëœ ë©”ë‰´ë¥¼ ì„ íƒí–ˆìŠµë‹ˆë‹¤.");
 			}
 		}
 	}//end main.

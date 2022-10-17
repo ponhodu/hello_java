@@ -17,22 +17,22 @@ public class ByteStreamExample {
 		}
 	}
 
-	// byte´ÜÀ§·Î ÀĞ°í ¾²±â.
+	// byteë‹¨ìœ„ë¡œ ì½ê³  ì“°ê¸°.
 	public static void fileCopy() throws IOException {
 		FileInputStream fis = new FileInputStream("C:/Temp/origin.jpg");
 		FileOutputStream fos = new FileOutputStream("C:/Temp/copy.jpg");
-		//ÀĞ¾î¿Â originÀ» copy¶ó´Â  ÆÄÀÏ·Î ¸¸µé±â.
-		byte [] buf = new byte[100]; //ÇÑ¹ø¿¡ 100¹ÙÀÌÆ®¸¸Å­ ÀĞ¾îµéÀÏ°Ô
+		//ì½ì–´ì˜¨ originì„ copyë¼ëŠ”  íŒŒì¼ë¡œ ë§Œë“¤ê¸°.
+		byte [] buf = new byte[100]; //í•œë²ˆì— 100ë°”ì´íŠ¸ë§Œí¼ ì½ì–´ë“¤ì¼ê²Œ
 		
-		//copy¸¸µå´Âµ¥ °É¸° ½Ã°£ Ãâ·Â
+		//copyë§Œë“œëŠ”ë° ê±¸ë¦° ì‹œê°„ ì¶œë ¥
 		long start = System.currentTimeMillis();
 		while (true) {
-			int bytes = fis.read(buf); // ¸Å°³°ª ¾øÀ» ¶§ : ÇÑ¹ÙÀÌÆ®¾¿ ÀĞ±â.
+			int bytes = fis.read(buf); // ë§¤ê°œê°’ ì—†ì„ ë•Œ : í•œë°”ì´íŠ¸ì”© ì½ê¸°.
 			
 			if (bytes == -1) 
 				break;
 				
-			fos.write(buf); //¹è¿­ÀÇ Å©±â¸¸Å­ ¹öÆÛ¿¡ ÀúÀåÇÏ°í ÇÑ¹ø¿¡ ÀúÀå
+			fos.write(buf); //ë°°ì—´ì˜ í¬ê¸°ë§Œí¼ ë²„í¼ì— ì €ì¥í•˜ê³  í•œë²ˆì— ì €ì¥
 		}
 		fos.close();
 		fis.close();
@@ -48,8 +48,8 @@ public class ByteStreamExample {
 		byte[] buf = new byte[2];
 
 		while (true) {
-			int bytes = is.read(buf); // ¹è¿­¿¡ ¼±¾ğµÈ Å©±â¸¸Å­ ÀĞ¾îµéÀÓ.
-			if (bytes == -1) { // ÀĞ¾î¿Ã °ªÀÌ ¾øÀ¸¸é ºüÁ®³ª¿Ã°Ô
+			int bytes = is.read(buf); // ë°°ì—´ì— ì„ ì–¸ëœ í¬ê¸°ë§Œí¼ ì½ì–´ë“¤ì„.
+			if (bytes == -1) { // ì½ì–´ì˜¬ ê°’ì´ ì—†ìœ¼ë©´ ë¹ ì ¸ë‚˜ì˜¬ê²Œ
 				break;
 			}
 			for (int i = 0; i < bytes; i++) {
@@ -61,7 +61,7 @@ public class ByteStreamExample {
 		is.close();
 	}
 
-	public static void writeBuf() throws IOException { // ²Ï »óÀ§ÀÇ Exception
+	public static void writeBuf() throws IOException { // ê½¤ ìƒìœ„ì˜ Exception
 		byte[] arr = new byte[] { 10, 20, 30 };
 		OutputStream os = new FileOutputStream("C:/Temp/data2.dat");
 		os.write(arr);
@@ -75,7 +75,7 @@ public class ByteStreamExample {
 			InputStream is = new FileInputStream("C:/Temp/data1.dat");
 
 			while (true) {
-				int bytes = is.read(); // byte ÀĞ°í ´õ ÀÌ»ó ÀĞÀ» ¹ÙÀÌÆ® ¾øÀ¸¸é -1°ª ¹İÈ¯
+				int bytes = is.read(); // byte ì½ê³  ë” ì´ìƒ ì½ì„ ë°”ì´íŠ¸ ì—†ìœ¼ë©´ -1ê°’ ë°˜í™˜
 				if (bytes == -1) {
 					break;
 				}
@@ -92,7 +92,7 @@ public class ByteStreamExample {
 	}
 
 	public static void write() {
-		// Ãâ·Â½ºÆ®¸²(¹ÙÀÌÆ®)
+		// ì¶œë ¥ìŠ¤íŠ¸ë¦¼(ë°”ì´íŠ¸)
 		try {
 			OutputStream os = new FileOutputStream("C:/Temp/data1.dat");
 			// write(byte b)
@@ -102,7 +102,7 @@ public class ByteStreamExample {
 			os.write(a);
 			os.write(b);
 
-			// resource ¹İÈ¯
+			// resource ë°˜í™˜
 			os.close();
 		} catch (FileNotFoundException e) {
 

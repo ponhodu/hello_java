@@ -22,7 +22,7 @@ public class BoardApp {
 
 			if (dao.login(id, pw)) {
 				System.out.println("로그인 성공");
-				logId = id;
+				logId = id ;
 				break;
 			} else {
 				System.out.println("로그인 실패");
@@ -54,8 +54,8 @@ public class BoardApp {
 				System.out.println("<< 나의 글/댓글 >>");
 				System.out.println("< 나의 글 목록>");
 				List <Board> myBrd = dao.getBrd(logId);
-				for(int i = 0; i<myBrd.size(); i++) {
-					System.out.println(myBrd.get(i).showString());
+				for(Board i:myBrd) {
+					System.out.println(i.showString());
 				}
 				System.out.println("<나의 댓글 목록>");
 				List <Reply> myRp = dao.getRp(logId);
@@ -76,13 +76,25 @@ public class BoardApp {
 						String bContent = scn.nextLine();
 						brd = new Board(bNum,bContent);
 						
-						dao.updateBrd(brd);
+						if(dao.searchBrd(bNum).getbWriter().equals(logId)) {
+							dao.updateBrd(brd);
+							System.out.println("수정 완료");
+						}else {
+							System.out.println("수정할 권한이 없습니다.");
+						}
+						
 						
 					} else if (subMenu == 2) {
 						System.out.println("삭제할 글 번호 >> ");
 						int bNum = Integer.parseInt(scn.nextLine());
 						
-						dao.delBrd(bNum);
+						if(dao.searchBrd(bNum).getbWriter().equals(logId)) {
+							dao.delBrd(bNum);
+							System.out.println("삭제 완료");
+						}else {
+							System.out.println("삭제 권한이 없습니다.");
+						}
+						
 					} else if (subMenu == 3) {
 						System.out.println("수정할 댓글 번호 >> ");
 						int reNum = Integer.parseInt(scn.nextLine());
@@ -119,7 +131,7 @@ public class BoardApp {
 					for(Reply i : y) {
 						System.out.println(i.toString());
 					}
-					System.out.println("댓글 다실건지? 1. 댓글 등록");
+					System.out.println("댓글 다실건지? 1. 댓글 등록 2.아니오");
 					System.out.print(">> ");
 					int subMenu = Integer.parseInt(scn.nextLine());
 					if (subMenu == 1) {
@@ -137,11 +149,15 @@ public class BoardApp {
 
 				
 			} else if (menu == 5) {
-				System.out.println("회원 탈퇴");
-				System.out.println(logId + " 님 탈퇴하시려면 비번~");
-//				dao.checkPw(logId);
+				System.out.println("<< 회원 탈퇴 >>");
+				System.out.println(logId + " 님 탈퇴하시려면 비밀 번호를 입력해주세요");
+				System.out.println("탈퇴 시 작성하신 모든 글/댓글도 사라집니다.");
+				String id = logId;
 				String pw = scn.nextLine();
-//				dao.delUser();
+				dao.delUser(id, pw);
+				dao.byeBrd(id);
+				dao.byeRp(id);
+				System.out.println("탈퇴 완료 되었습니다.");
 
 			} else if (menu == 6) {
 				System.out.println("종료합니다.");

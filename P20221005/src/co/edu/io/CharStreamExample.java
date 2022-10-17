@@ -34,7 +34,7 @@ public class CharStreamExample {
 	public static void write() {
 		Scanner scn = new Scanner(System.in);
 
-		// ¹®ÀÚ±â¹İ ½ºÆ®¸² »ı¼º. Reader/Writer.
+		// ë¬¸ìê¸°ë°˜ ìŠ¤íŠ¸ë¦¼ ìƒì„±. Reader/Writer.
 		try {
 			FileWriter fw = new FileWriter("C:/Temp/addr.txt");
 

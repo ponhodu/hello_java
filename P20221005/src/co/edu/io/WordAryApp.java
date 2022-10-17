@@ -10,13 +10,13 @@ import java.util.Set;
 public class WordAryApp {
 	public static void main(String[] args) throws Exception {
 		Scanner scn = new Scanner(System.in);
-		// ÀÓÀÇ ¹®ÀåÀ» 10°³¾¿ Ãâ·ÂÇÏ°í Å¸ÀÌÇÎÇØ¼­ ¸ÂÀ¸¸é »ç¶óÁö°í ..
+		// ì„ì˜ ë¬¸ì¥ì„ 10ê°œì”© ì¶œë ¥í•˜ê³  íƒ€ì´í•‘í•´ì„œ ë§ìœ¼ë©´ ì‚¬ë¼ì§€ê³  ..
 		ArrayList<String> words = randomWords(10);
 		System.out.println(words.size());
 		for (String word : words) {
 			System.out.println(word);
 		}
-		// ÇÏ³ª¾¿ Ã£¾Æ¼­ Áö¿ì°³¤Ó.
+		// í•˜ë‚˜ì”© ì°¾ì•„ì„œ ì§€ìš°ê°œã…£.
 		while (true) {
 			System.out.println(">>");
 			String inputVal = scn.nextLine();
@@ -32,18 +32,18 @@ public class WordAryApp {
 	}
 
 	public static ArrayList<String> randomWords(int times) throws Exception {
-		// ArrayList<String>¿¡ ÀüÃ¼ ¹®ÀåÀ» ´ã°í,
+		// ArrayList<String>ì— ì „ì²´ ë¬¸ì¥ì„ ë‹´ê³ ,
 		ArrayList<String> words = new ArrayList<String>();
 		String path = "src/co/edu/io/wordAry.txt";
-		File file = new File(path); // °æ·ÎÀÇ ÆÄÀÏÀ»..¸¸µç´Ù
+		File file = new File(path); // ê²½ë¡œì˜ íŒŒì¼ì„..ë§Œë“ ë‹¤
 		Scanner scn = new Scanner(file);
 		while (scn.hasNext()) {
 			String readStr = scn.nextLine();
 			readStr = readStr.replaceAll("\"", "").trim();
 //			System.out.println(readStr);
-			words.add(readStr.substring(0, readStr.indexOf(","))); // indexof(",") - ½°Ç¥°¡ µé¾î°£ ÀÎµ¦½º °ª Ã£¾ÆÁÜ
+			words.add(readStr.substring(0, readStr.indexOf(","))); // indexof(",") - ì‰¼í‘œê°€ ë“¤ì–´ê°„ ì¸ë±ìŠ¤ ê°’ ì°¾ì•„ì¤Œ
 		}
-		// ÀÓÀÇÀÇ °¹¼ö times°ª¸¸Å­ ¹İÈ¯ÇÏµµ·Ï.
+		// ì„ì˜ì˜ ê°¯ìˆ˜ timesê°’ë§Œí¼ ë°˜í™˜í•˜ë„ë¡.
 		ArrayList<String> randomWords = new ArrayList<String>();
 //		while (randomWords.size() < times) {
 //			randomWords.add(words.get((int) (Math.random() * 494)));

@@ -69,6 +69,6 @@ public class Board {
 	}
 	
 	public String showString() {
-		return  bNum + " " + bTitle + " " + bContent+ " "+ bWriter + " " + bDate + "\n";
+		return  "글 번호 : " + bNum + ", 글 제목 : " + bTitle + ", 글 내용 : " + bContent+ ", 글쓴이 : "+ bWriter + ", 작성일시 : " + bDate + "\n";
 	}
 }

@@ -1,7 +1,7 @@
 package co.edu.memo;
 
 public interface MENU {
-	//»ó¼ö ¼±¾ğ 
+	//ìƒìˆ˜ ì„ ì–¸ 
 	int INSERT = 1;
 	int SEARCH = 2;
 	int DELETE = 3;

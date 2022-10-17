@@ -1,6 +1,6 @@
 package co.edu.memo.except;
 
-//Exception »ó¼Ó¹ŞÀ¸¸é ¹«Á¶°Ç try = catchÇØÁ¶¾ßÇÔ
+//Exception ìƒì†ë°›ìœ¼ë©´ ë¬´ì¡°ê±´ try = catchí•´ì¡°ì•¼í•¨
 public class MenuException extends Exception {
 	int choice;
 	
@@ -9,6 +9,6 @@ public class MenuException extends Exception {
 	}
 	
 	public void showErrMessage() {
-		System.out.println(choice + "´Â ¾ø´Â ¸Ş´ºÀÔ´Ï´Ù.");
+		System.out.println(choice + "ëŠ” ì—†ëŠ” ë©”ë‰´ì…ë‹ˆë‹¤.");
 	}
 }

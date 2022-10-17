@@ -90,8 +90,8 @@ public class BoardDAO extends DAO {
 			rs = psmt.executeQuery();
 
 			if (rs.next()) {
-				rpList.add(new Reply(rs.getInt("rep_seq"), rs.getInt("board_num"), rs.getString("re_content"),
-						rs.getString("re_writer"), rs.getString("creation_date")));
+				rpList.add(new Reply(rs.getInt("rep_seq"), rs.getInt("board_num"), rs.getString("rep_content"),
+						rs.getString("rep_writer"), rs.getString("creation_date")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -103,7 +103,10 @@ public class BoardDAO extends DAO {
 
 	// 글 수정
 	public void updateBrd(Board brd) {
-		String sql = "update theBoard " + "set board_content =?," + "creation_date = sysdate," + "where board_num =?";
+		String sql = "update theBoard "
+				+"set board_content = ? ,"
+				+ "creation_date = sysdate, "
+				+ "where board_num = ?";
 
 		conn = getConnect();
 		try {
@@ -142,7 +145,7 @@ public class BoardDAO extends DAO {
 
 	// 댓글 수정
 	public void updateRp(Reply rp) {
-		String sql = "update theReply" + "set re_content =? , creation_date = sysdate, where rep_seq =?";
+		String sql = "update theReply" + "set rep_content =? , creation_date = sysdate, where rep_seq =?";
 		conn = getConnect();
 
 		try {
@@ -187,8 +190,8 @@ public class BoardDAO extends DAO {
 			while(rs.next()) {
 				brdList.add( new Board(rs.getInt("board_num")
 						, rs.getString("board_title")
-						,rs.getString("board_writer")
-						,rs.getString("creation_date")));	
+						, rs.getString("board_writer")
+						, rs.getString("creation_date")));	
 			}
 			
 		} catch (SQLException e) {
@@ -236,8 +239,8 @@ public class BoardDAO extends DAO {
 			if(rs.next()) {
 				rpList.add(new Reply(rs.getInt("rep_seq")
 								, rs.getInt("board_num")
-								, rs.getString("re_content")
-								, rs.getString("re_writer")
+								, rs.getString("rep_content")
+								, rs.getString("rep_writer")
 								, rs.getString("cration_date")));
 			}
 		} catch (SQLException e) {
@@ -247,7 +250,7 @@ public class BoardDAO extends DAO {
 	}
 	// 댓글쓰기
 	public void inputRp(Reply rp) {
-		String sql = "insert into theReply(rep_seq, board_num, re_content_,re_writer, creation_date)"
+		String sql = "insert into theReply(rep_seq, board_num, rep_content, rep_writer, creation_date)"
 				+ "values(reply_seq.nextval, ?, ?, ?, sysdate)";
 		conn = getConnect();
 		try {
@@ -267,13 +270,47 @@ public class BoardDAO extends DAO {
 		
 	}
 	// 회원 탈퇴
-	public void delUser(String pw) {
-		String sql = "delete * from theUsers where passwd =? ";
+	public void delUser(String id, String pw) {
+		String sql = "delete * from theUsers where passwd =? and id =? ";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, pw);
-			if(pw.equals(psmt.get))
+			psmt.setString(2, id);
+			
+			psmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+	}
+	
+	//기준 - 아이디, 글삭
+	public void byeBrd(String id) {
+		String sql ="delete * from theBoard where board_writer = ?";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			
+			psmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+	}
+	
+	 //기준 - 아이디, 댓삭
+	public void byeRp(String id) {
+		String sql ="delete * from theReply where rep_writer = ?";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			
+			psmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
