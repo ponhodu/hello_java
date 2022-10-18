@@ -62,7 +62,6 @@ public class Reply {
 	
 	@Override
 	public String toString() {
-		return "댓글 번호 : " + reNum + ", 원본 글 번호 : " + bNum
-				+ ", 댓글 내용 : " + reContent + ", 댓쓴이 : " + reWriter + ", 작성 시간 :" + reDate;
+		return "댓글 번호 : " + reNum + ", 댓글 내용 : " + reContent + ", 댓쓴이 : " + reWriter + ", 작성 시간 :" + reDate;
 	}
 }

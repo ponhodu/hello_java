@@ -34,7 +34,11 @@ public class CharStreamExample {
 	public static void write() {
 		Scanner scn = new Scanner(System.in);
 
+<<<<<<< HEAD
 		// ¹®ÀÚ±â¹Ý ½ºÆ®¸² »ý¼º. Reader/Writer.
+=======
+		// 문자기반 스트림 생성. Reader/Writer.
+>>>>>>> branch 'master' of https://github.com/ponhodu/hello_java.git
 		try {
 			FileWriter fw = new FileWriter("C:/Temp/addr.txt");
 
