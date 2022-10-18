@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MemoManager {
-	List<Memo> memoStorage = new ArrayList<>();//Á¤º¸ ´ãÀ» ÄÃ·º¼Ç
+	
+	List<Memo> memoStorage = new ArrayList<>(); // ì •ë³´ ë‹´ì•„ë†“ê¸° ìœ„í•œ ì»¬ë ‰ì…˜
 	File file = new File("C:/Temp/memobook.dat");
 	Scanner scn = new Scanner(System.in);
 	
-	//½Ì±ÛÅæ
+	// ì‹±ê¸€í†¤
 	private static MemoManager instance = new MemoManager();
 	private MemoManager() {
 		readFromFile();
@@ -23,75 +24,75 @@ public class MemoManager {
 		return instance;
 	}
 	
-	// Ãß°¡.
+	// ì¶”ê°€
 	public void inputData() {
-		System.out.print("¹øÈ£ > ");
+		System.out.print("ë²ˆí˜¸>> ");
 		int no = Integer.parseInt(scn.nextLine());
-		System.out.print("³¯Â¥ > ");
+		System.out.print("ë‚ ì§œ>> ");
 		String date = scn.nextLine();
-		System.out.println("³»¿ë > ");
+		System.out.print("ë‚´ìš©>> ");
 		String content = scn.nextLine();
 		
-		memoStorage.add(new Memo(no, date, content));
-		System.out.println("ÀúÀåÀÌ ¿Ï·á µÇ¾ú½À´Ï´Ù.");
+		memoStorage.add(new Memo(no, date, content)); // ë©”ëª¨ë¼ëŠ” ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë‹´ì„ ìˆ˜ ìˆëŠ” ì¸ìŠ¤í„´ìŠ¤
+		
 	}
 	
-	//Á¶È¸. ±âÁØ - ³¯Â¥
+	// ì¡°íšŒ(ë‚ ì§œë¥¼ ì…ë ¥ë°›ìœ¼ë©´ í•´ë‹¹ë˜ëŠ” ë‚ ì§œì˜ ë²ˆí˜¸ë¥¼ ëª¨ë‘ ì¶œë ¥)
 	public void searchData() {
-		System.out.println("³¯Â¥ >");
+		System.out.print("ë‚ ì§œ>> ");
 		String sDate = scn.nextLine();
 		boolean exists = false;
-		for(int i =0; i<memoStorage.size(); i++) {
-			if(sDate.equals(memoStorage.get(i).getDate())) {
+		for(int i=0; i<memoStorage.size(); i++) {
+			if(sDate.equals(memoStorage.get(i).getDate())) { //memoStorage.get(i)ì˜ ë‚ ì§œë¥¼ getìœ¼ë¡œ ê°€ì ¸ì™€ì„œ ë¹„êµí•˜ê¸°
 				System.out.println(memoStorage.get(i).toString());
 				exists = true;
 			}
 		}
 		if(!exists) {
-			System.out.println("ÇØ´ç ³¯Â¥ÀÇ ¸Ş¸ğ°¡ ¾ø½À´Ï´Ù.");
+			System.out.println("í•´ë‹¹ ë‚ ì§œì˜ ë©”ëª¨ê°€ ì—†ìŠµë‹ˆë‹¤.");
 		}
-	}//end searchData
+	}
 	
-	//¹øÈ£¸¦ ÀÔ·ÂÇÏ¸é ÇÑ°Ç »èÁ¦.
+	// ì‚­ì œ(ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ë©´ í•œ ê±´ ì‚­ì œ)
 	public void deleteData() {
-		System.out.println("¹øÈ£ >> ");
-		int sNo = Integer.parseInt(scn.nextLine());
+		System.out.print("ë²ˆí˜¸>> ");
+		int dNo = Integer.parseInt(scn.nextLine());
 		boolean exists = false;
-		for(int i =0; i<memoStorage.size(); i++) {
-			if(sNo == memoStorage.get(i).getNo()) {
+		for(int i=0; i<memoStorage.size(); i++) {
+			if(dNo == memoStorage.get(i).getNo()) {
 				memoStorage.remove(i);
 				exists = true;
-				System.out.println("»èÁ¦°¡ ¿Ï·á µÇ¾ú½À´Ï´Ù.");
+				System.out.println("ì‚­ì œ ì™„ë£Œ");
 			}
 		}
 		if(!exists) {
-			System.out.println("ÇØ´ç ¹øÈ£ÀÇ ¸Ş¸ğ°¡ ¾ø½À´Ï´Ù.");
+			System.out.println("í•´ë‹¹ ë²ˆí˜¸ì˜ ë©”ëª¨ê°€ ì—†ìŠµë‹ˆë‹¤.");
 		}
 	}
 	
-	//ÇÁ·Î±×·¥ ½ÇÇà ½Ã  ÆÄÀÏÀ» ÀĞ¾î¼­ µ¥ÀÌÅÍ memoStorage ±â´É.
+	// í”„ë¡œê·¸ë¨ì´ ì‹œì‘ë˜ë©´ íŒŒì¼ì„ ì½ì–´ì„œ ë°ì´í„°ë¥¼ memoStorageì— ë‹´ì•„ì£¼ëŠ” ê¸°ëŠ¥
 	public void readFromFile() {
-		//try with resource.
-		try(FileInputStream fis = new FileInputStream(file);
-			ObjectInputStream ois = new ObjectInputStream(fis);
-			) {
+		// try with resourceë¼ëŠ” ì˜ˆì™¸ì²˜ë¦¬ ê¸°ëŠ¥
+		try( FileInputStream fis = new FileInputStream(file);
+			 ObjectInputStream ois = new ObjectInputStream(fis);
+			){
 			
-			memoStorage = (List<Memo>) ois.readObject(); //ÆÄÀÏ ¸®ÅÏ(¹ÙÀÌÆ® -> °´Ã¼)
-		} catch(Exception e) {
-//			e.printStackTrace(); 
-			return; //¾øÀ¸¸é ¾îÂ¿¼ö ¾øÁö ¸ğ ¤»¤»
+			memoStorage = (List<Memo>) ois.readObject(); //ìˆìœ¼ë©´ ë‹´ì•„ì£¼ê³ 
+			
+		}catch(Exception e) { // ì—†ìœ¼ë©´ ê·¸ëƒ¥ ë¦¬í„´
+//			e.printStackTrace();
+			return;
 		}
 	}
 	
-	//Á¾·áÇÏ¸é ÆÄÀÏ¿¡ ÀúÀå°¥°Ü.
+	//ì¢…ë£Œí•˜ë©´ íŒŒì¼ ì €ì¥
 	public void storeToFile() {
-		try(FileOutputStream fos = new FileOutputStream(file);
-			ObjectOutputStream oos = new ObjectOutputStream(fos); 
-		) {
-			oos.writeObject(memoStorage); //ÆÄÀÏÀúÀå(°´Ã¼ -> ¹ÙÀÌÆ®¹è¿­)
-		}catch(Exception e) {
+		try( FileOutputStream fos = new FileOutputStream(file);
+			 ObjectOutputStream oos = new ObjectOutputStream(fos);
+			){
+			oos.writeObject(memoStorage); // íŒŒì¼ì— ì €ì¥í•˜ê² ë‹¤ëŠ” ì˜ë¯¸
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-			
-}// end class
+}

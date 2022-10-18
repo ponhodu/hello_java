@@ -153,16 +153,16 @@ public class BoardDAO extends DAO {
 	
 	//댓글 관련
 	//댓글 추가
-	public void addReply(Reply reply) {
+	public void addReply(Reply rp) {
 		String sql = "insert into reply(rep_seq, board_num, rep_content, rep_writer, creation_date)\r\n"
 				+ "values(reply_seq.nextval, ? , ? , ? ,sysdate)";
 				
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, reply.getbNum());
-			psmt.setString(2, reply.getReContent());
-			psmt.setString(3, reply.getReWriter());
+			psmt.setInt(1, rp.getbNum());
+			psmt.setString(2, rp.getReContent());
+			psmt.setString(3, rp.getReWriter());
 			
 			psmt.executeUpdate();
 			

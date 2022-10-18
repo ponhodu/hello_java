@@ -1,14 +1,13 @@
 package co.edu.memo.except;
 
-//Exception »ó¼Ó¹ÞÀ¸¸é ¹«Á¶°Ç try = catchÇØÁ¶¾ßÇÔ
 public class MenuException extends Exception {
-	int choice;
+	int choice ;
 	
 	public MenuException(int choice) {
-		this.choice =choice;
+		this.choice = choice;
 	}
 	
 	public void showErrMessage() {
-		System.out.println(choice + "´Â ¾ø´Â ¸Þ´ºÀÔ´Ï´Ù.");
+		System.out.println(choice + "ëŠ” ì—†ëŠ” ë©”ë‰´ìž…ë‹ˆë‹¤.");
 	}
 }

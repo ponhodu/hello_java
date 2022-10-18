@@ -3,7 +3,6 @@ package co.edu.memo;
 import java.io.Serializable;
 
 public class Memo implements Serializable { 
-	//°´Ã¼¸¦ ÆÄÀÏ·Î ÀúÀå or ³×Æ®¿öÅ©·Î Àü¼ÛÇÒ ¸ñÀûÀÏ¶§ Serializable ¼±¾ğ ÇÊ¿ä
 
 	private int no;
 	private String date;
@@ -39,6 +38,6 @@ public class Memo implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "¹øÈ£ : " + no + ", ³¯Â¥ : " + date + ", ³»¿ë : " + content;
+		return "ï¿½ï¿½È£ : " + no + ", ï¿½ï¿½Â¥ : " + date + ", ï¿½ï¿½ï¿½ï¿½ : " + content;
 	}
 }

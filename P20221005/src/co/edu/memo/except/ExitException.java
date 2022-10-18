@@ -1,8 +1,8 @@
 package co.edu.memo.except;
 
 public class ExitException extends Exception {
-
+	
 	public ExitException() {
-		System.out.println("ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.");
+		System.out.println("í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.");
 	}
 }

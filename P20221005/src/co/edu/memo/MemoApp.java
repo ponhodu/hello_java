@@ -2,53 +2,51 @@ package co.edu.memo;
 
 import java.util.Scanner;
 
-
 import co.edu.memo.except.ExitException;
 import co.edu.memo.except.MenuException;
 
 public class MemoApp {
 	public static void main(String[] args) {
-		MemoManager manager = MemoManager.getInstance();
+		MemoManager menager = MemoManager.getInstance();
+		
 		Scanner scn = new Scanner(System.in);
-
-		while (true) {
+		
+		while(true) {
 			try {
-				System.out.println("1.µî·Ï 2.°Ë»ö 3.»èÁ¦ 4.Á¾·á");
-
-				System.out.println("¼±ÅÃ >> ");
+				System.out.println("1.ë“±ë¡ 2.ê²€ìƒ‰ 3.ì‚­ì œ 4.ì¢…ë£Œ");
+				System.out.print("ì„ íƒ>> ");
+			
 				int menu = Integer.parseInt(scn.nextLine());
-
-				if (menu < MENU.INSERT || menu > MENU.EXIT) {
+			
+				if(menu < MENU.INSERT || menu > MENU.EXIT) {
 					throw new MenuException(menu);
 				}
-				switch (menu) {
+				
+				switch(menu) {
 				case MENU.INSERT:
-					// ÀÔ·ÂÀÛ¾÷
-					manager.inputData();
+					//ì…ë ¥ì‘ì—…
+					menager.inputData();
 					break;
-
 				case MENU.SEARCH:
-					// Á¶È¸
-					manager.searchData();
+					//ì¡°íšŒì‘ì—…
+					menager.searchData();
 					break;
-					
 				case MENU.DELETE:
-					// »èÁ¦
-					manager.deleteData();
+					//ì‚­ì œì‘ì—…
+					menager.deleteData();
 					break;
 				case MENU.EXIT:
-					// »õ·Î¿î ÆÄÀÏÀúÀå
-					manager.storeToFile();
+					//ì¢…ë£Œì‘ì—…. ìƒˆë¡œìš´ íŒŒì¼ì— ì €ì¥
+					menager.storeToFile();
 					throw new ExitException();
 				}
-			} catch (MenuException e) {
+			}catch(MenuException e) {
 				e.showErrMessage();
-			} catch (ExitException e) {
+			}catch(ExitException e) {
 				break;
 			}
-			
-		} // end while
-		System.out.println("ÇÁ·Î±×·¥ Á¾·á");
+		}// end of while
+		System.out.println("í”„ë¡œê·¸ë¨ ì¢…ë£Œ.");
 		scn.close();
 	}
 }
