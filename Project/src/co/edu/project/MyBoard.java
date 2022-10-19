@@ -1,28 +1,35 @@
 package co.edu.project;
 
-public class Board {
+public class MyBoard {
 	private int bNum;
 	private String bTitle;
 	private String bContent;
 	private String bWriter;
 	private String bDate;
 	
-	public Board() {
+	public MyBoard() {
 		
 	};
 	
-	public Board(int bNum, String bContent) {
+	public MyBoard(int bNum, String bContent) {
 		this.bNum = bNum;
 		this.bContent = bContent;
 	}
-	public Board(int bNum, String bTitle, String bWriter, String bDate) {
+	
+	public MyBoard(String bTitle, String bContent, String bWriter) {
+		this.bTitle = bTitle;
+		this.bContent = bContent;
+		this.bWriter = bWriter;
+	}
+	
+	public MyBoard(int bNum, String bTitle, String bWriter, String bDate) {
 		this.bNum = bNum;
 		this.bTitle = bTitle;
 		this.bWriter = bWriter;
 		this.bDate = bDate;
 	}
 	
-	public Board(int bNum, String bTitle, String bContent, String bwriter, String bDate) {
+	public MyBoard(int bNum, String bTitle, String bContent, String bwriter, String bDate) {
 		this.bNum = bNum;
 		this.bTitle = bTitle;
 		this.bContent = bContent;
@@ -65,14 +72,14 @@ public class Board {
 	
 	@Override
 	public String toString() {
-		return  bNum + " " + bTitle + " " + bWriter + " " + bDate + "\n";
+		return  bNum + " " + bTitle + " " + bWriter + " " + bDate ;
 	}
 	
 	public String showString() {
-		return  "글 번호 : " + bNum + ", 글 제목 : " + bTitle + ", 글 내용 : " + bContent+ ", 글쓴이 : "+ bWriter + ", 작성일시 : " + bDate + "\n";
+		return  "글 번호 : " + bNum + ", 글 제목 : " + bTitle + ", 글 내용 : " + bContent+ ", 글쓴이 : "+ bWriter + ", 작성일시 : " + bDate ;
 	}
 	
 	public String myString() {
-		return  "글 번호 : " + bNum + ", 글 제목 : " + bTitle + ", 글 내용 : " + bContent + ", 작성일시 : " + bDate + "\n";
+		return  "글 번호 : " + bNum + ", 글 제목 : " + bTitle + ", 글 내용 : " + bContent + ", 작성일시 : " + bDate ;
 	}
 }

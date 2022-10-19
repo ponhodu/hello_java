@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.*;
 
 public class BoardScreen extends JFrame {
-	BoardApp app = new BoardApp();
+	MyBoardApp app = new MyBoardApp();
 	
 	public BoardScreen() {
 		setTitle("♣떡잎마을 주민 게시판♣");

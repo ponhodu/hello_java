@@ -4,11 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoardDAO extends DAO {
+
+public class MyBoardDAO extends DAO {
 //	ArrayList<Board> brdList = new ArrayList<Board>();
 //	ArrayList<Reply> rpList = new ArrayList<Reply>();
-	Board needBrd = null;
-	Reply needRp = null;
+	MyBoard needBrd = null;
+	MyReply needRp = null;
 
 	// 로그인
 	public boolean login(String id, String pw) {
@@ -35,17 +36,16 @@ public class BoardDAO extends DAO {
 	}// end login
 
 	// 글 등록
-	public void inputBrd(Board brd) {
-		String sql = "insert into theBoard(board_num, board_title, board_content, board_writer, creation_date)\r\n"
-				+ "values( ?, ?, ?, ?, sysdate)";
+	public void inputBrd(MyBoard brd) {
+		String sql = "insert into theBoard(brd_seq, board_title, board_content, board_writer, creation_date)\r\n"
+				+ "values(brd_seq.nextval, ?, ?, ?, sysdate)";
 
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, brd.getbNum());
-			psmt.setString(2, brd.getbTitle());
-			psmt.setString(3, brd.getbContent());
-			psmt.setString(4, brd.getbWriter());
+			psmt.setString(1, brd.getbTitle());
+			psmt.setString(2, brd.getbContent());
+			psmt.setString(3, brd.getbWriter());
 
 			psmt.executeUpdate();
 
@@ -59,9 +59,9 @@ public class BoardDAO extends DAO {
 	}// end inputBrd
 
 	// 본인 글 찾기 - id로 특정글 찾기
-	public List<Board> getBrd(String logId) {
-		ArrayList<Board> brdList = new ArrayList<Board>();
-		String sql = "select * from theBoard where board_writer = ? order by board_num";
+	public List<MyBoard> getBrd(String logId) {
+		ArrayList<MyBoard> brdList = new ArrayList<MyBoard>();
+		String sql = "select * from theBoard where board_writer = ? order by brd_seq";
 		conn = getConnect();
 
 		try {
@@ -70,7 +70,7 @@ public class BoardDAO extends DAO {
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
-				brdList.add(new Board(rs.getInt("board_num"), rs.getString("board_title"),
+				brdList.add(new MyBoard(rs.getInt("brd_seq"), rs.getString("board_title"),
 						rs.getString("board_content"), null, rs.getString("creation_date")));
 			}
 		} catch (SQLException e) {
@@ -83,8 +83,8 @@ public class BoardDAO extends DAO {
 	}
 
 	// 본인 id로 특정 글에 대한 댓글 찾기
-	public List<Reply> getRp(String logId) {
-		ArrayList<Reply> rpList = new ArrayList<Reply>();
+	public List<MyReply> getRp(String logId) {
+		ArrayList<MyReply> rpList = new ArrayList<MyReply>();
 		String sql = "select * from theReply where rep_writer = ? order by re_seq";
 		conn = getConnect();
 		try {
@@ -93,7 +93,7 @@ public class BoardDAO extends DAO {
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
-				rpList.add(new Reply(rs.getInt("re_seq"), rs.getInt("board_num"), rs.getString("rep_content"),
+				rpList.add(new MyReply(rs.getInt("re_seq"), rs.getInt("board_num"), rs.getString("rep_content"),
 						rs.getString("rep_writer"), rs.getString("creation_date")));
 			}
 		} catch (SQLException e) {
@@ -106,9 +106,9 @@ public class BoardDAO extends DAO {
 	}
 
 	// 글 수정
-	public void updateBrd(Board brd) {
+	public void updateBrd(MyBoard brd) {
 		String sql = "update theBoard " + "set board_content = ? ," + "creation_date = sysdate "
-				+ "where board_num = ?";
+				+ "where brd_seq = ?";
 
 		conn = getConnect();
 		try {
@@ -128,7 +128,7 @@ public class BoardDAO extends DAO {
 
 	// 글 삭제
 	public void delBrd(int bNum) {
-		String sql = "delete from theBoard where board_num = ?";
+		String sql = "delete from theBoard where brd_seq = ?";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -145,7 +145,7 @@ public class BoardDAO extends DAO {
 	}
 
 	// 댓글 수정
-	public void updateRp(Reply rp) {
+	public void updateRp(MyReply rp) {
 		String sql = "update theReply " + "set rep_content =? , creation_date = sysdate where re_seq =?";
 		conn = getConnect();
 
@@ -182,15 +182,15 @@ public class BoardDAO extends DAO {
 	}
 
 	// 전체글보기
-	public List<Board> viewBrd() {
-		ArrayList<Board> brdList = new ArrayList<Board>();
+	public List<MyBoard> viewBrd() {
+		ArrayList<MyBoard> brdList = new ArrayList<MyBoard>();
 		String sql = "select * from theBoard ";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
 			while (rs.next()) {
-				brdList.add(new Board(rs.getInt("board_num"), rs.getString("board_title"), rs.getString("board_writer"),
+				brdList.add(new MyBoard(rs.getInt("brd_seq"), rs.getString("board_title"), rs.getString("board_writer"),
 						rs.getString("creation_date")));
 			}
 
@@ -203,8 +203,8 @@ public class BoardDAO extends DAO {
 	}
 
 	// 특정 글 보기
-	public Board searchBrd(int bNum) {
-		String sql = "select * from theBoard where board_num = ?";
+	public MyBoard searchBrd(int bNum) {
+		String sql = "select * from theBoard where brd_seq = ?";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -212,7 +212,7 @@ public class BoardDAO extends DAO {
 			rs = psmt.executeQuery();
 
 			if (rs.next()) {
-				needBrd = new Board(rs.getInt("board_num") //
+				needBrd = new MyBoard(rs.getInt("brd_seq") //
 						, rs.getString("board_title")//
 						, rs.getString("board_content")//
 						, rs.getString("board_writer")//
@@ -228,8 +228,8 @@ public class BoardDAO extends DAO {
 	}
 
 	// 특정 글에 대한 댓글보기
-	public List<Reply> searchRp(int bNum) {
-		ArrayList<Reply> rpList = new ArrayList<Reply>();
+	public List<MyReply> searchRp(int bNum) {
+		ArrayList<MyReply> rpList = new ArrayList<MyReply>();
 		String sql = "select * from theReply where board_num = ? order by re_seq";
 		conn = getConnect();
 
@@ -239,7 +239,7 @@ public class BoardDAO extends DAO {
 			rs = psmt.executeQuery();
 
 			while (rs.next()) {
-				rpList.add(new Reply(rs.getInt("re_seq"), rs.getInt("board_num"), rs.getString("rep_content"),
+				rpList.add(new MyReply(rs.getInt("re_seq"), rs.getInt("board_num"), rs.getString("rep_content"),
 						rs.getString("rep_writer"), rs.getString("creation_date")));
 			}
 		} catch (SQLException e) {
@@ -250,7 +250,7 @@ public class BoardDAO extends DAO {
 	}
 
 	// 댓글쓰기
-	public void inputRp(Reply rp) {
+	public void inputRp(MyReply rp) {
 		String sql = "insert into theReply(re_seq, board_num, rep_content, rep_writer, creation_date)"
 				+ "values(re_seq.nextval, ?, ?, ?, sysdate)";
 		conn = getConnect();
@@ -360,6 +360,27 @@ public class BoardDAO extends DAO {
 		} finally {
 			disconnect();
 		}
+	}
+	
+	//인기글
+	public List<MyReply> rankBrd() {
+		conn= getConnect();
+		List<MyReply> list = new ArrayList<>();
+		String sql = "select b.board_num, b.cnt, t.board_title from (select board_num, count(*) cnt from theReply group by board_num) b , theBoard t where b.board_num = t.brd_seq order by b.cnt desc"; 
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				list.add(new MyReply(rs.getInt("board_num"), rs.getString("board_title"), rs.getInt("cnt")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return list;
 	}
 
 }

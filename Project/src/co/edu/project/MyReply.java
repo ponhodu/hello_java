@@ -1,26 +1,35 @@
 package co.edu.project;
 
-public class Reply {
+public class MyReply {
 	private int reNum;
 	private int bNum;
 	private String reContent;
 	private String reWriter;
 	private String reDate;
+	private int popular;
+	private String brdTitle;
 	
-	public Reply() {	
+	
+
+	public MyReply() {	
 	}
 	
-	public Reply(int reNum, String reContent) {
+	public MyReply(int bNum, String brdTitle, int popular) {
+		this.bNum = bNum;
+		this.brdTitle =  brdTitle;
+		this.popular = popular;
+	}
+	public MyReply(int reNum, String reContent) {
 		this.reNum = reNum;
 		this.reContent = reContent;
 	}
-	public Reply(int bNum, String reContent, String reWriter) {
+	public MyReply(int bNum, String reContent, String reWriter) {
 		this.bNum = bNum;
 		this.reContent = reContent;
 		this.reWriter = reWriter;
 	}
 	
-	public Reply(int reNum, int bNum, String reContent, String reWriter, String reDate) {
+	public MyReply(int reNum, int bNum, String reContent, String reWriter, String reDate) {
 		this.reNum  = reNum;
 		this.bNum = bNum;
 		this.reContent = reContent;
@@ -59,9 +68,25 @@ public class Reply {
 	public void setReDate(String reDate) {
 		this.reDate = reDate;
 	}
-	
+	public int getPopular() {
+		return popular;
+	}
+	public void setPopular(int popular) {
+		this.popular = popular;
+	}
+	public String getBrdTitle() {
+		return brdTitle;
+	}
+	public void setBrdTitle(String brdTitle) {
+		this.brdTitle = brdTitle;
+	}
+
 	@Override
 	public String toString() {
 		return "댓글 번호 : " + reNum + ", 댓글 내용 : " + reContent + ", 댓쓴이 : " + reWriter + ", 작성 시간 :" + reDate;
+	}
+	
+	public String rank() {
+		return bNum + "  " + brdTitle + "(" + popular + ")";
 	}
 }
