@@ -8,27 +8,42 @@ import java.util.List;
 public class EmpDAO extends DAO {
 	
 	//입력
-	public void inserEmp(EmployeeVO vo) {
+	public EmployeeVO insertEmp(EmployeeVO vo) {
+		System.out.println(vo);
 		getConnect();
-		String sql = "insert in empl(employeee_id, first_name, last_name, email, hire_date, job_id) "
-				+ "Values(employees_seq.nextval, ?,?, ?, ?, ?)";
+		
+		String seq = "select employees_seq.nextval from dual";
+		String sql = "insert into empl(employee_id, first_name, last_name, email, hire_date, job_id) Values(?, ?, ?, ?, ?, ?)";
 		
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1,vo.getFirstName());
-			psmt.setString(2,vo.getLastName());
-			psmt.setString(3,vo.getEmail());
-			psmt.setString(4,vo.getHireDate());
-			psmt.setString(5,vo.getJobId());
-			
+			//sequence 획득.
+			int seqInt = 0;
+			psmt = conn.prepareStatement(seq);
 			rs = psmt.executeQuery();
-			System.out.println(rs + "건 입력 완");
+			if(rs.next() ) {
+				seqInt = rs.getInt(1);
+			}
+			
+			//insert 작업
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, seqInt);
+			psmt.setString(2,vo.getFirstName());
+			psmt.setString(3,vo.getLastName());
+			psmt.setString(4,vo.getEmail());
+			psmt.setString(5,vo.getHireDate());
+			psmt.setString(6,vo.getJobId());
+			
+			int r = psmt.executeUpdate();
+			System.out.println(r + "건 입력 완");
+			
+			//새롭게 입력하게된 사원번호를 vo에 넣고싶음.
+			vo.setEmployeeId(seqInt);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
 			disconnect();
 		}
-		
+		return vo;		
 	}
 	//삭제
 	public void deleteEmp(int employeeId) {

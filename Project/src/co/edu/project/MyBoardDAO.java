@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class MyBoardDAO extends DAO {
 //	ArrayList<Board> brdList = new ArrayList<Board>();
 //	ArrayList<Reply> rpList = new ArrayList<Reply>();
 	MyBoard needBrd = null;
 	MyReply needRp = null;
-
+	MailApp app = new MailApp();
+	
 	// 로그인
 	public boolean login(String id, String pw) {
 		String sql = "select * from theUsers where id = ?";
@@ -34,7 +36,56 @@ public class MyBoardDAO extends DAO {
 		return false;
 
 	}// end login
+	
+	//회원 가입 신청
+	public void applyUser(MyUser newuser) {
+		conn = getConnect();
+		String sql = "insert into newUsers(id, passwd, user_name, email)\r\n"
+				+ " values(?, ?, ?, ?)";
+				
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, newuser.getNewId());
+			psmt.setString(2, newuser.getNewPw());
+			psmt.setString(3, newuser.getNewName());
+			psmt.setString(4, newuser.getEmail());
+			
+			psmt.executeUpdate();
+			
+			System.out.println("신청 완료 되었습니다.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			disconnect();
+		}
+		
+	}
+	
+	//아이디 중복 확인
+	public boolean ckOverlap(String id){
+		String sql = "select * from theUsers where id = ?";
+		conn = getConnect();
 
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+
+			if(rs.next()) {
+				return false;
+			} else {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}return false;
+
+	}
+	
+	
+	
 	// 글 등록
 	public void inputBrd(MyBoard brd) {
 		String sql = "insert into theBoard(brd_seq, board_title, board_content, board_writer, creation_date)\r\n"
@@ -184,7 +235,7 @@ public class MyBoardDAO extends DAO {
 	// 전체글보기
 	public List<MyBoard> viewBrd() {
 		ArrayList<MyBoard> brdList = new ArrayList<MyBoard>();
-		String sql = "select * from theBoard ";
+		String sql = "select * from theBoard order by brd_seq";
 		conn = getConnect();
 		try {
 			psmt = conn.prepareStatement(sql);
@@ -292,18 +343,48 @@ public class MyBoardDAO extends DAO {
 		return false;
 
 	}
+	
+	//신청 목록 보여주기.
+		public List<MyUser> viewApply() {
+			ArrayList<MyUser> applyList = new ArrayList<MyUser>();
+			String sql = "select * from newUsers";
+			conn = getConnect();
+			try {
+				psmt = conn.prepareStatement(sql);
+				rs = psmt.executeQuery();
+				while (rs.next()) {
+					applyList.add(new MyUser(rs.getString("id"), rs.getString("passwd"), rs.getString("user_name")));
+				}
 
-	// 주민등록
-	public void inputUser(String userId, String userPw, String userName) {
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				disconnect();
+			}
+			return applyList;
+		}
+
+	// 신청 승인
+	public void inputUser(String id) {
+		String apply = "select passwd, user_name, email from newUsers where id = ?";
 		String sql = "insert into theUsers(id, passwd, user_name) values(?, ?, ?)";
 		conn = getConnect();
 		try {
-			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, userId);
-			psmt.setString(2, userPw);
-			psmt.setString(3, userName);
-
+			psmt = conn.prepareStatement(apply);
+			psmt.setString(1, id);
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				psmt = conn.prepareStatement(sql);
+				psmt.setString(1, id);
+				psmt.setString(2, rs.getString(1));
+				psmt.setString(3, rs.getString(2));
+			}
+			
+			String address = rs.getString(3);
 			psmt.executeUpdate();
+			
+			
+			app.sendMail("aeegina@naver.com", address , "떡잎마을 게시판 가입 승인되었습니다", "환영합니다. <br> 떡잎마을 게시판 가입 승인되었습니다.");
 			System.out.println("주민 등록 완료");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -311,6 +392,23 @@ public class MyBoardDAO extends DAO {
 			disconnect();
 		}
 
+	}
+	
+	//승인 받았다면 = 신청 테이블에서 신청인 지우기
+	public void delApply(String id) {
+		String sql = "delete from newUsers where id = ?";
+		conn = getConnect();
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+
+			psmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			disconnect();
+		}
 	}
 
 	// 회원 탈퇴

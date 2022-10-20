@@ -32,7 +32,7 @@ public class BoardApp {
 
 		// 1. 글동록 2. 글 수정 3. 글 삭제 4. 글목록 5. 상세조회 6. 종료
 		while (true) {
-			System.out.println("1.글 등록 2.글 수정 3.글 삭제 4.글 목록 5. 상세 조회 6. 종료");
+			System.out.println("1.글 등록 2.글 수정 3.글 삭제 4.글 목록 5. 상세 조회 6. 떡잎마을 인기글 7. 종료");
 			System.out.print("메뉴 선택 >> ");
 			int menu = Integer.parseInt(scn.nextLine());
 

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import co.edu.project.MyBoard;
 
+
 public class MyBoardApp {
 	public static void main(String[] args) {
 		MyBoardDAO dao = new MyBoardDAO();
@@ -14,25 +15,52 @@ public class MyBoardApp {
 		Scanner scn = new Scanner(System.in);
 
 		while (true) {
-			System.out.println("<< 로그인 >>");
-			System.out.println("아이디 >> ");
-			String id = scn.nextLine();
-			System.out.println("비밀번호 >> ");
-			String pw = scn.nextLine();
+			System.out.println("♣ 떡잎마을 주민 게시판 ♣");
+			System.out.println("1. 로그인 2. 게시판 회원 가입");
+			int doorMenu = Integer.parseInt(scn.nextLine());
 
-			if (dao.login(id, pw)) {
-				System.out.println("로그인 성공");
-				logId = id;
-				break;
-			} else {
-				System.out.println("로그인 실패");
-				continue;
+			if (doorMenu == 1) {
+				System.out.println("<< 로그인 >>");
+				System.out.println("아이디 >> ");
+				String id = scn.nextLine();
+				System.out.println("비밀번호 >> ");
+				String pw = scn.nextLine();
+
+				if (dao.login(id, pw)) {
+					System.out.println("로그인 성공");
+					logId = id;
+					break;
+				} else {
+					System.out.println("로그인 실패");
+					continue;
+				}
+			} else if (doorMenu == 2) {
+				System.out.println("<< 게시판 회원 가입 >>");
+				System.out.println("사용 아이디 >> ");
+				String id = scn.nextLine();
+				System.out.println("사용 비밀번호 >> ");
+				String passwd = scn.nextLine();
+				System.out.println("이름 >> ");
+				String name = scn.nextLine();
+				System.out.println("메일 주소 >>");
+				String email = scn.nextLine();
+
+				MyUser newuser = new MyUser(id, passwd, name, email);
+				if (dao.ckOverlap(id)) {
+					dao.applyUser(newuser);
+					System.out.println("가입 신청이 완료되었습니다.");
+					System.out.println("관리자의 승인을 기다려 주세요.");
+				} else {
+					System.out.println("이미 존재하는 아이디입니다. ");
+					continue;
+				}
 			}
+
 		}
 
 		while (true) {
 			System.out.println("♣ 떡잎마을 주민 게시판 ♣");
-			System.out.println("1.글 등록 2.나의 글/댓글 3.전체 글 보기 4.상세 글 보기 5.떡잎마을 인기글 6.탈퇴  7.주민 등록 8.종료");
+			System.out.println("1.글 등록 2.나의 글/댓글 3.전체 글 보기 4.상세 글 보기 5.떡잎마을 인기글 6.탈퇴 7.가입 신청 승인 8.종료");
 			System.out.print(">>");
 			int menu = Integer.parseInt(scn.nextLine());
 
@@ -57,7 +85,7 @@ public class MyBoardApp {
 				for (MyBoard i : myBrd) {
 					System.out.println(i.myString());
 				}
-				
+
 				System.out.println("<나의 댓글 목록>");
 				List<MyReply> myRp = dao.getRp(logId);
 				for (MyReply i : myRp) {
@@ -110,10 +138,45 @@ public class MyBoardApp {
 			} else if (menu == 3) {
 				System.out.println("<< 전체 글 목록 >>");
 				List<MyBoard> everyBrd = dao.viewBrd();
-				System.out.println("글번호 제목 글쓴이 날짜");
-				for (int i = 0; i < everyBrd.size(); i++) {
-					System.out.println(everyBrd.get(i));
+				int totalCnt = everyBrd.size();
+				int totalPage = (int) Math.ceil(totalCnt / 5.0);
+				boolean firstpage = true;
+				
+				if(firstpage) {
+					for(int i = 0; i<5; i++) {
+						System.out.println(everyBrd.get(i));
+					}
 				}
+				
+				while (true) {
+					// 메뉴 보여주기, 매뉴가 더 필요해지면 자동으로 생성이 되게끔!
+					System.out.print("페이지 목록 : ");
+					for (int i = 1; i <= totalPage; i++) {
+						System.out.print(i + ", ");
+					}
+					System.out.println("이동할 페이지 >> ");
+					System.out.println("메인 메뉴로 나가고 싶다면 0을 입력하세요");
+					int pageNum = Integer.parseInt(scn.nextLine());
+					firstpage = false;
+					if (pageNum > 0) {
+						int page = pageNum;
+						int from, to;
+						from = (page - 1) * 5;
+						to = (5 * page) - 1;
+						if (to > totalCnt)
+							to = totalCnt - 1;
+						System.out.println("<< " + page + "페이지 >>");
+						System.out.println("글번호 제목 글쓴이 날짜");
+						for (int i = from; i <= to; i++) {
+							System.out.println(everyBrd.get(i));
+						}
+						System.out.println("----------------------");
+
+					} else if (pageNum == 0) {
+						break;
+					}
+
+				} // end of while
 
 			} else if (menu == 4) {
 				System.out.println("<< 글 상세 검색 >>");
@@ -150,8 +213,8 @@ public class MyBoardApp {
 				List<MyReply> popularBrd = dao.rankBrd();
 				System.out.println("     글번호    제목            ");
 				System.out.println("----------------------------");
-				for (int i = 0; i <5; i++) {
-					System.out.println((i+1)+"등 : " + popularBrd.get(i).rank());
+				for (int i = 0; i < 5; i++) {
+					System.out.println((i + 1) + "등 : " + popularBrd.get(i).rank());
 				}
 			} else if (menu == 6) {
 				System.out.println("<< 회원 탈퇴 >>");
@@ -164,22 +227,25 @@ public class MyBoardApp {
 				dao.byeBrd(id);
 				dao.byeRp(id);
 				System.out.println("탈퇴 완료 되었습니다.");
-			} else if(menu == 7) {
-				System.out.println("<< 주민 등록 페이지 >>");
+			} else if (menu == 7) {
+				System.out.println("<< 가입 신청 승인 페이지 >>");
 				String id = logId;
-				if(dao.ckManager(id)) {
-					System.out.println("아이디 >> ");
-					String userId = scn.nextLine();
-					System.out.println("비밀번호 >> ");
-					String userPw = scn.nextLine();
-					System.out.println("주민 이름 >>");
-					String userName = scn.nextLine();
-					
-					dao.inputUser(userId, userPw, userName);
+				if (dao.ckManager(id)) {
+					List<MyUser> apply = dao.viewApply();
+					for (int i = 0; i < apply.size(); i++) {
+						System.out.println(apply.get(i).toString());
+					}
+
+					System.out.println("승인할 아이디 입력> ");
+					String applyId = scn.nextLine();
+
+					dao.inputUser(applyId);
+					dao.delApply(applyId);
+
 				} else {
 					System.out.println("관리자 권한이 없습니다.");
-				}			
-			}else if (menu == 8) {
+				}
+			} else if (menu == 8) {
 				System.out.println("종료합니다.");
 				break;
 			}

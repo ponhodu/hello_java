@@ -47,7 +47,7 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 		DefaultTableModel model = new DefaultTableModel(headers, 0);
 
 		table = new JTable(model);
-		table.addMouseListener(this); //마우스 이벤트를 감지하도록 하는 ,,,
+		table.addMouseListener(this); // 마우스 이벤트를 감지하도록 하는 ,,,
 		centerPanel = new JScrollPane(table); // 컴포넌트에 스크롤 기능을 제공함
 
 		// 오른쪽 버튼.
@@ -74,27 +74,65 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
-	}//end of EmpScreen();
-	
-	//DB조회 후 table에 결과 출력/반영
+	}// end of EmpScreen();
+
+	// DB조회 후 table에 결과 출력/반영
 	public void searchData() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel(); //
+		
+		
+		int allCnt = model.getRowCount();
+		for (int i = 0; i < allCnt; i++) { // 0넣으면 모든 목록 다 보여줌
+			model.removeRow(i);
+		}
+		
 		String[] record = new String[6];
-		list = dao.empList(new EmployeeVO(0, null, null, null, null, null)); 
-		//dao.empList(new EmployeeVO(0, null, null, null, null, null)); 이렇게 해도됨 -> 둘다 전체 사원 조회하겠다는 거. 널값,전체값 0을 넣겠다는거
-		//empList(null)-> 안되던데욘?
-		for(int i=0; i<list.size(); i++) {
+		list = dao.empList(new EmployeeVO(0, fields[1].getText(), null, null, null, fields[5].getText()));
+		// dao.empList(new EmployeeVO(0, null, null, null, null, null)); 이렇게 해도됨 -> 둘다
+		// 전체 사원 조회하겠다는 거. 널값,전체값 0을 넣겠다는거
+		for (int i = 0; i < list.size(); i++) {
 			record[0] = String.valueOf(list.get(i).getEmployeeId());
-			//String.valueof = int값을 문자값으로 바꿈
-			record[1] =list.get(i).getFirstName();
+			// String.valueof = int값을 문자값으로 바꿈
+			record[1] = list.get(i).getFirstName();
 			record[2] = list.get(i).getLastName();
 			record[3] = list.get(i).getEmail();
 			record[4] = list.get(i).getHireDate();
 			record[5] = list.get(i).getJobId();
-			
+
 			model.addRow(record);
 		}
 		
+		// 화면에 조회된 결과 있으면 ... 클리어
+		
+	}
+
+	// 삭제위한 메소드
+	public void removeData() {
+		int selectedRow = table.getSelectedRow(); // 선택한 row 반환..
+		if (selectedRow < 0) {
+			return;
+		}
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		int empId = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
+
+		dao.deleteEmp(empId);
+
+		model.removeRow(selectedRow); // 화면 삭제
+
+	}
+
+	// 등록
+	public void addData() {
+		String[] records = new String[6];
+
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		for (int i = 0; i < fields.length; i++) {
+			records[i] = fields[i].getText();
+		}
+		EmployeeVO emp = new EmployeeVO(0, records[1], records[2], records[3], records[4], records[5]);
+		dao.insertEmp(emp);
+		records[0] = String.valueOf(emp.getEmployeeId());
+		model.addRow(records);
 	}
 
 	@Override
@@ -103,52 +141,53 @@ public class EmpScreen extends JFrame implements ActionListener, MouseListener {
 		Object src = e.getSource();
 
 		if (src == addBtn) {
-
+			addData();
 		} else if (src == delBtn) {
-
+			removeData();
 		} else if (src == findBtn) {
 			searchData();
 		} else if (src == initBtn) {
 
 		}
 
-	}//end of actionPerformed(ActionEvent e) 
-	
-	//마우스이벤트 처리
+	}// end of actionPerformed(ActionEvent e)
+
+	// 마우스이벤트 처리
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// table 이벤트.
-		int selectedTow = table.getSelectedRow(); //선택한 row 반환..	
+		int selectedRow = table.getSelectedRow(); // 선택한 row 반환..
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		int empId = Integer.parseInt((String) model.getValueAt(selectedTow, 0));
-		
+		int empId = Integer.parseInt((String) model.getValueAt(selectedRow, 0));
+
 		dao.deleteEmp(empId);
 	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	//프로그램의 시작..
+
+	// 프로그램의 시작..
 	public static void main(String[] args) {
 		new EmpScreen();
 	}

@@ -10,7 +10,6 @@ public class EmployeeVO {
 	private String jobId;
 	
 	
-
 	public EmployeeVO(int employeeId, String firstName, String lastName, String email, String hireDate, String jobId) {
 		this.employeeId = employeeId;
 		this.firstName = firstName;

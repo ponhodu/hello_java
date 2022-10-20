@@ -198,4 +198,25 @@ public class BoardDAO extends DAO {
 		return list;
 				
 	}//end getReply
+	
+	public void rankBrd() {
+		conn= getConnect();
+		List <Reply> list = new ArrayList<>();
+		String sql = "select board_num, count(*) \r\n"
+				+ "from theReply\r\n"
+				+ "group by board_num\r\n"
+				+ "order by count(*) desc";
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }
