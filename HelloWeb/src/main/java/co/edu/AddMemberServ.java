@@ -20,6 +20,7 @@ public class AddMemberServ extends HttpServlet {
 		super();
 	}
 	
+	//doget = 겟방식의 요청이 들어오면 get이라는 메소드 호출.
 	//doget - 사용자의 요청정보를 처리해주는,,,
 	//request - 파마메터를 읽어들이는 기능가짐
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -57,10 +58,16 @@ public class AddMemberServ extends HttpServlet {
 		
 		
 	}
-
+	
+	//post 요청으로 방식이 들어오면 doPost 실행
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response);
-	}
+		response.setContentType("text/html;charset=UTF-8");
+//		doGet(request, response);
+		//출력스트림
+		PrintWriter out = response.getWriter(); //사용자의 브라우저(출력스트림생성)
+		out.print("<h3>Post 방식의 요청</h3>");
+		
+		}
 
 }

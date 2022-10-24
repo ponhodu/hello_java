@@ -26,6 +26,10 @@ public class EmployeeVO {
 		this.hireDate = hireDate;
 		this.jobId = jobId;
 	}
+	
+	public EmployeeVO(String jobId) {
+		this.jobId = jobId;
+	}
 
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;

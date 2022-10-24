@@ -5,6 +5,16 @@
 	id="WebApp_ID" version="4.0">
 	<display-name>HelloWeb</display-name>
 
+	<servlet>
+		<servlet-name>front</servlet-name>
+		<servlet-class>co.edu.FrontController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>front</servlet-name>
+		<url-pattern>*.do</url-pattern> <!-- *.do로 끝나는 모든..url은 프론트서블렛 소환할것이다. -->
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
