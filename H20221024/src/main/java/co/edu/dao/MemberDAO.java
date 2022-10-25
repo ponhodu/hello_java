@@ -29,8 +29,9 @@ public class MemberDAO extends DAO {
 		}
 	}
 
+	//한건조회
 	public MemberVO memberSearch(String id) {
-		MemberVO vo = new MemberVO();
+		MemberVO vo = null;
 		String sql = "select * from members where id = ?";
 		conn = getConnect();
 		try {
@@ -40,8 +41,11 @@ public class MemberDAO extends DAO {
 			rs = psmt.executeQuery();
 
 			if (rs.next()) {
-				vo = (new MemberVO(rs.getString("id"), rs.getString("passwd"), rs.getString("name"),
-						rs.getString("email")));
+				vo = (new MemberVO(rs.getString("id")
+						, rs.getString("passwd")
+						, rs.getString("name")
+						,rs.getString("email")
+						,rs.getString("responsibility")));
 			}
 
 		} catch (SQLException e) {
@@ -94,13 +98,12 @@ public class MemberDAO extends DAO {
 		List<MemberVO> list = new ArrayList<>();
 
 		conn = getConnect();
-//		String sql = "select * from members";
 
-		String sql = "select * from members" //
-				+ " where id like '%'||?||'%' "//
-				+ " and passwd like '%'||?||'%' "// //앞뒤로 퍼센트 붙여줌.
-				+ " and name like '%'||?||'%' " //
-				+ " and email like '%'||?||'%' "; //
+		String sql = "select * from members"; //
+//				+ " where id like '%'||?||'%' "//
+//				+ " and passwd like '%'||?||'%' "// //앞뒤로 퍼센트 붙여줌.
+//				+ " and name like '%'||?||'%' " //
+//				+ " and email like '%'||?||'%' "; //
 		try {
 			psmt = conn.prepareStatement(sql);
 			rs = psmt.executeQuery();
@@ -110,8 +113,9 @@ public class MemberDAO extends DAO {
 				String passwd = rs.getString("passwd");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
+				String responsibility = rs.getString("responsibility");
 
-				list.add(new MemberVO(id, passwd, name, email));
+				list.add(new MemberVO(id, passwd, name, email, responsibility));
 			}
 
 		} catch (SQLException e) {
@@ -120,5 +124,33 @@ public class MemberDAO extends DAO {
 			disconnect();
 		}
 		return list;
+	}
+	
+	//String id, String passwd = > MemberVO타입
+	public MemberVO login(String id, String passwd) {
+		conn = getConnect();
+		String sql = "select * from members where id=? and passwd = ?";
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, passwd);
+			
+			rs = psmt.executeQuery();
+			if(rs.next()) {
+				MemberVO vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+				vo.setName(rs.getString("name"));
+				vo.setEmail(rs.getString("email"));
+				vo.setPasswd(rs.getString("passwd"));
+				vo.setResponsibility(rs.getString("responsibility"));
+				return vo;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			disconnect();
+		}
+		return null;
 	}
 }

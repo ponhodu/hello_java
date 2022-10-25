@@ -30,5 +30,11 @@ public class MemberServiceMysql implements MemberService {
 	public List<MemberVO> memberList() {
 		return null;
 	}
+
+	@Override
+	public MemberVO login(String id, String passwd) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
