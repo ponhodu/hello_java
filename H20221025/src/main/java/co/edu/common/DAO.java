@@ -1,10 +1,12 @@
 package co.edu.common;
 
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class DAO {
 	public Connection conn;
@@ -15,10 +17,20 @@ public class DAO {
 
 	public Connection getConnect() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "pih", "pih");
-//			System.out.println("success");
+			
+			Properties prop = new Properties();
+			prop.load(new FileReader("C:/Temp/database.properties"));
+			String driver = prop.getProperty("driver"); //key값 불러옴
+			String url = prop.getProperty("url"); //key에 해당되는 값
+			String id = prop.getProperty("user");
+			String pass = prop.getProperty("pass");
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, id, pass);
+			
+//			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "pih", "pih");
+			System.out.println("success");
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("error");
 		}
 		return conn;
