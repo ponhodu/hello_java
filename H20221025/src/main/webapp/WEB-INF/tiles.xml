@@ -11,6 +11,9 @@
 	</definition>
 	
 	
+	<definition name="WILDCARD:template/*" extends="home">
+		<put-attribute name="body" value="/WEB-INF/tiles/template/{1}.jsp" />
+	</definition>
 	<definition name="WILDCARD:*/*" extends="home">
 		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
 	</definition>

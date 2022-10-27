@@ -21,9 +21,10 @@
 		</tr>
 		<tr>
 			<td colspan ='2'>
-				<textarea rows = '5' cols='30'>
-					<%=result.getContent()%>
-				</textarea>
+				<textarea rows = '5' cols='40' style =  "text-align: left;"><%=result.getContent()%></textarea>
+			</td>
+			<td>
+				<img src = "upload/<%=result.getImage() %>" alt="" style="width:200px; height:100px" >
 			</td>
 		</tr>
 		<tr>
