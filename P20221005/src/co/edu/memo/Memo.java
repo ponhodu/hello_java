@@ -3,10 +3,7 @@ package co.edu.memo;
 import java.io.Serializable;
 
 public class Memo implements Serializable { 
-<<<<<<< HEAD
-=======
 	//객체를 파일로 저장 or 네트워크로 전송할 목적일때 Serializable 선언 필요
->>>>>>> branch 'master' of https://github.com/ponhodu/hello_java.git
 
 	private int no;
 	private String date;
@@ -42,10 +39,6 @@ public class Memo implements Serializable {
 	}
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "��ȣ : " + no + ", ��¥ : " + date + ", ���� : " + content;
-=======
 		return "번호 : " + no + ", 날짜 : " + date + ", 내용 : " + content;
->>>>>>> branch 'master' of https://github.com/ponhodu/hello_java.git
 	}
 }
